@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login.tsx";
+
 import Dashboard from "./pages/Dashboard.tsx";
+import Login from "./pages/Login.tsx";
 import PrivateRoute from "./pages/routes/PrivateRoute.tsx";
 
 function App() {
+  console.log();
   return (
     <BrowserRouter>
       <Routes>

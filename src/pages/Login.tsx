@@ -1,15 +1,17 @@
-import { FC } from "react";
-import { usePostApiAuthLogin } from "../api/endpoints/auth/auth.ts";
-import { useAuthStore } from "../authStore.ts";
-import { AuthResponseDto, LoginRequestDto } from "../api/types";
-import { useNavigate } from "react-router-dom";
 import "@fontsource/plus-jakarta-sans";
-import { Box, Button, Link, styled, TextField, Typography } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useForm } from "react-hook-form";
-import { loginFormValidation } from "../../utils/loginValidation.ts";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Button, Link, styled, TextField, Typography } from "@mui/material";
+import { FC } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+
+import { loginFormValidation } from "../../utils/loginValidation.ts";
+import { usePostApiAuthLogin } from "../api/endpoints/auth/auth.ts";
+import { AuthResponseDto, LoginRequestDto } from "../api/types";
+import { useAuthStore } from "../authStore.ts";
 interface FormValues {
   email: string;
   password: string;

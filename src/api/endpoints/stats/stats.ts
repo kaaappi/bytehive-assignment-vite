@@ -5,7 +5,6 @@
  * Documentation for interview endpoints
  * OpenAPI spec version: 1.0.0
  */
-import { useQuery } from "@tanstack/react-query";
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -15,10 +14,12 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
-import type { TodaysStatsResponse } from "../../types";
-import { useCustomInstance } from "../../mutator/useCustomInstance";
+
 import type { ErrorType } from "../../mutator/useCustomInstance";
+import { useCustomInstance } from "../../mutator/useCustomInstance";
+import type { TodaysStatsResponse } from "../../types";
 
 /**
  * @summary Get today's stats

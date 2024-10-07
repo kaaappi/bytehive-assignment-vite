@@ -5,12 +5,13 @@
  * Documentation for interview endpoints
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation } from "@tanstack/react-query";
 import type { MutationFunction, UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
-import type { AuthResponseDto, LoginRequestDto } from "../../types";
-import { useCustomInstance } from "../../mutator/useCustomInstance";
+
 import type { ErrorType } from "../../mutator/useCustomInstance";
+import { useCustomInstance } from "../../mutator/useCustomInstance";
+import type { AuthResponseDto, LoginRequestDto } from "../../types";
 
 /**
  * @summary User login

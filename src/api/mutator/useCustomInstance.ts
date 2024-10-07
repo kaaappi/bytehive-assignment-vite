@@ -1,4 +1,5 @@
-import Axios, { AxiosRequestConfig, AxiosError } from "axios";
+import Axios, { AxiosError, AxiosRequestConfig } from "axios";
+
 import { useAuthStore } from "../../authStore.ts";
 
 export const AXIOS_INSTANCE = Axios.create({
