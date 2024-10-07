@@ -1,11 +1,12 @@
 import Axios, { AxiosRequestConfig, AxiosError } from "axios";
+import { useAuthStore } from "../../authStore.ts";
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: "https://interview-api-8icc.onrender.com",
 });
 
 export const useCustomInstance = <T>(): ((config: AxiosRequestConfig) => Promise<T>) => {
-  const token = localStorage.getItem("authToken");
+  const { token } = useAuthStore();
 
   return (config: AxiosRequestConfig) => {
     const source = Axios.CancelToken.source();
@@ -17,12 +18,6 @@ export const useCustomInstance = <T>(): ((config: AxiosRequestConfig) => Promise
       },
       cancelToken: source.token,
     }).then(({ data }) => data);
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    promise.cancel = () => {
-      source.cancel("Query was cancelled by React Query");
-    };
 
     return promise;
   };

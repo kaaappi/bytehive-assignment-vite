@@ -1,6 +1,6 @@
 import { defineConfig } from "orval";
 
-const apiURL = "https://interview-api-8icc.onrender.com/api-docs-config";
+const apiURL = "https://interview-api-8icc.onrender.com";
 
 export default defineConfig({
   orvalVite: {
@@ -13,13 +13,13 @@ export default defineConfig({
       prettier: true,
       override: {
         mutator: {
-          path: "./src/api/mutator/use-custom-instance.ts",
+          path: "./src/api/mutator/useCustomInstance.ts",
           name: "useCustomInstance",
         },
       },
     },
     input: {
-      target: `${apiURL}`,
+      target: `${apiURL}/api-docs-config`,
     },
   },
 });

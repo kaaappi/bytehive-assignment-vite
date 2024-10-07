@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { useGetApiProducts } from "../api/endpoints/products/products.ts";
 import { useAuthStore } from "../authStore.ts";
 

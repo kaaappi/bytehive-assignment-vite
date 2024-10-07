@@ -1,43 +1,57 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { usePostApiAuthLogin } from "../api/endpoints/auth/auth.ts";
 import { useAuthStore } from "../authStore.ts";
 import { AuthResponseDto, LoginRequestDto } from "../api/types";
 import { useNavigate } from "react-router-dom";
 import "@fontsource/plus-jakarta-sans";
 import { Box, Button, Link, styled, TextField, Typography } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useForm } from "react-hook-form";
+import { loginFormValidation } from "../../utils/loginValidation.ts";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+interface FormValues {
+  email: string;
+  password: string;
+}
+
 const Login: FC = () => {
-  const mutation = usePostApiAuthLogin();
+  const { mutate: loginRequest } = usePostApiAuthLogin();
   const { login } = useAuthStore();
   const navigate = useNavigate();
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const onSubmit = (data: FormValues) => {
     const loginData: LoginRequestDto = {
-      email: "BHuser@gmail.com",
-      password: "12345678",
+      email: data.email,
+      password: data.password,
     };
 
-    mutation.mutate(
+    loginRequest(
       { data: loginData },
       {
-        onSuccess: (response: AuthResponseDto) => {
-          console.log("Login successful:", response);
-          if (response.token) login(response.token);
-          navigate("/dashboard");
-        },
-        onError: (error) => {
-          console.error("Login failed:", error);
-        },
+        onSuccess: handleLoginSuccess,
+        onError: handleLoginError,
       },
     );
   };
+  const handleLoginSuccess = (response: AuthResponseDto) => {
+    if (response.token) login(response.token);
+    navigate("/dashboard");
+  };
+
+  const handleLoginError = (error: { message: string }) => {
+    console.error("Login failed:", error);
+    toast.error("Login failed. Please try again.");
+  };
+
   return (
-    // <form onSubmit={handleSubmit}>
-    //   <button type="submit">Login</button>
-    //   <button onClick={handleLogout}>Logout</button>
-    //   {mutation.isError && <div>Error: {mutation.error.message}</div>}
-    // </form>
     <MainContainer>
+      <ToastContainer />
       <StyledCard>
         <NavSection>
           <ArrowBackIcon style={{ fontSize: "20px" }} />
@@ -55,45 +69,47 @@ const Login: FC = () => {
               Register
             </Link>
           </Typography>
-          <StyledForm noValidate>
-            <TextField
+          <StyledForm noValidate onSubmit={handleSubmit(onSubmit)}>
+            <StyledTextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
               label="Email address"
-              name="email"
               autoComplete="email"
               autoFocus
+              {...register("email", loginFormValidation.email)}
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
-            <TextField
+            <StyledTextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              {...register("password", loginFormValidation.password)}
+              error={!!errors.password}
+              helperText={errors.password?.message}
             />
-            <StyledButton type="submit" fullWidth variant="contained" color="primary" onClick={handleSubmit}>
+            <StyledButton type="submit" fullWidth variant="contained" color="primary">
               Log in
             </StyledButton>
-            <Box mt={2}>
-              <Link href="#" variant="body2">
+            <FormFooter>
+              <Link href="#" variant="body2" color={"#6366F1"}>
                 Forgot password?
               </Link>
-            </Box>
+            </FormFooter>
           </StyledForm>
         </FormContainer>
       </StyledCard>
     </MainContainer>
   );
 };
-
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const MainContainer = styled("div")(() => ({
   display: "flex",
@@ -111,6 +127,12 @@ const NavSection = styled("div")(() => ({
 }));
 
 const StyledCard = styled("div")(() => ({}));
+
+const StyledTextField = styled(TextField)(() => ({
+  "& fieldset": {
+    borderRadius: "8px",
+  },
+}));
 
 const FormContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -135,6 +157,13 @@ const StyledForm = styled("form")({
 const StyledButton = styled(Button)(() => ({
   boxShadow: "box-shadow: 0px 1px 2px 0px #00000014;",
   backgroundColor: "#6366F1",
+  marginTop: "10px",
+  borderRadius: "12px",
 }));
+const FormFooter = styled("div")({
+  display: "flex",
+  justifyContent: "center",
+  paddingTop: "10px",
+});
 
 export default Login;

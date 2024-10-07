@@ -17,8 +17,8 @@ import type {
 } from "@tanstack/react-query";
 import { useCallback } from "react";
 import type { GetApiProducts200Item } from "../../types";
-import { useCustomInstance } from "../../mutator/use-custom-instance";
-import type { ErrorType } from "../../mutator/use-custom-instance";
+import { useCustomInstance } from "../../mutator/useCustomInstance";
+import type { ErrorType } from "../../mutator/useCustomInstance";
 
 /**
  * @summary Get top sales products
