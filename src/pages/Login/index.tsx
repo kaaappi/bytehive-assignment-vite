@@ -8,10 +8,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-import { loginFormValidation } from "../../utils/loginValidation.ts";
-import { usePostApiAuthLogin } from "../api/endpoints/auth/auth.ts";
-import { AuthResponseDto, LoginRequestDto } from "../api/types";
-import { useAuthStore } from "../authStore.ts";
+import { loginFormValidation } from "../../../utils/loginValidation.ts";
+import { usePostApiAuthLogin } from "../../api/endpoints/auth/auth.ts";
+import { AuthResponseDto, LoginRequestDto } from "../../api/types";
+import { useAuthStore } from "../../authStore.ts";
 interface FormValues {
   email: string;
   password: string;
@@ -47,8 +47,8 @@ const Login: FC = () => {
   };
 
   const handleLoginError = (error: { message: string }) => {
-    console.error("Login failed:", error);
-    toast.error("Login failed. Please try again.");
+    console.error("Index failed:", error);
+    toast.error("Index failed. Please try again.");
   };
 
   return (
